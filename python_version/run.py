@@ -28,7 +28,6 @@ def update():
     print "[fetch data]------>end"
     LAST_FETCH_TIMESTAMP = time.time()
 
-
     print "[DB operation]------>DB data length:" + str(len(RESULT))
     # 与新数据对比并且筛选
     for new_item in result_new:
@@ -39,7 +38,7 @@ def update():
                 break
         if flag == False:
             RESULT.append(new_item)
-    RESULT = sorted(RESULT, key=lambda x: x['id'], reverse = True)
+    RESULT = sorted(RESULT, key=lambda x: x['id'], reverse=True)
     print "[DB operation]------>merge data length:" + str(len(RESULT))
 
     # 只保留1000条数据
@@ -48,7 +47,6 @@ def update():
 
 
 update()
-
 
 
 def isExpire():
@@ -62,11 +60,10 @@ def isExpire():
         return False
 
 
-
 def search(keywords):
     global RESULT, RESULT_BACKUP
     result = [];
-    total = RESULT[:]    
+    total = RESULT[:]
     for item in total:
         title = item["title"]
         for word in keywords:
@@ -74,7 +71,7 @@ def search(keywords):
                 result.append(item)
                 total.remove(item)
                 break
-    result = sorted(result, key=lambda x: x['id'], reverse = True)
+    result = sorted(result, key=lambda x: x['id'], reverse=True)
     return result
 
 
@@ -88,6 +85,7 @@ def refresh():
         'status': 'ok'
     })
 
+
 @app.route('/force')
 def force_refresh():
     global RESULT
@@ -95,14 +93,13 @@ def force_refresh():
     return json.dumps({
         'status': 'ok',
         'data': len(RESULT)
-    })    
+    })
 
 
 @app.route('/')
 def welcome():
     global RESULT
-    return render_template('index.html', data_length = len(RESULT))
-    
+    return render_template('index.html', data_length=len(RESULT), data=RESULT[:50])
 
 
 @app.route('/analysis')
@@ -111,7 +108,7 @@ def analysis():
     instance = ChartClas()
     result = instance.analysis(RESULT)
     return json.dumps(result)
-    
+
 
 @app.route('/data')
 def dataLength():
@@ -139,10 +136,5 @@ def page_not_found(error):
     return "wrong"
 
 
-app.config.update(
-    DEBUG = True,
-    SERVER_NAME = "127.0.0.1:8000"
-)
-
 if __name__ == '__main__':
-    app.run(use_reloader = True)
+    app.run(host="0.0.0.0", port=8000, use_reloader=True)
