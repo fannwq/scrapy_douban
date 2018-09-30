@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*- 
-import operator
 class ChartClas(object):
     KEY_WORDS = {
-        'location': ['西苑', '西二旗', '知春路', '牡丹园', '人民大学', '回龙观', '霍营', '望京', '立水桥', '西直门', '三元桥', '劲松', '惠新', '四惠', '鼓楼', '天通'],
-        'line': [['一号', '1号'], '八通', ['四号', '4号'], '大兴', ['六号', '6号'], ['九号', '9号'], ['十三号', '13号'], '房山', '亦庄', ['二号', '2号'], ['五号', '5号'], ['八号', '8号'], ['十号', '10号'], ['十五号', '15号'], '昌平']
+        'location': ['西苑', '西二旗', '知春路', '牡丹园', '人民大学', '回龙观', '霍营', '望京', '立水桥', '西直门', '三元桥', '劲松', '惠新', '四惠', '鼓楼',
+                     '天通'],
+        'line': [['一号', '1号'], '八通', ['四号', '4号'], '大兴', ['六号', '6号'], ['九号', '9号'], ['十三号', '13号'], '房山', '亦庄',
+                 ['二号', '2号'], ['五号', '5号'], ['八号', '8号'], ['十号', '10号'], ['十五号', '15号'], '昌平']
     }
     TEMP = {}
 
@@ -12,7 +13,7 @@ class ChartClas(object):
 
     def generateDict(self):
         result = {}
-        for key  in self.KEY_WORDS:
+        for key in self.KEY_WORDS:
             result[key] = []
             for word in self.KEY_WORDS[key]:
                 if type(word) == list:
@@ -26,13 +27,11 @@ class ChartClas(object):
                 result[key].append(temp)
         return result
 
-
     def sortBy(self, dictObj):
         for key in dictObj:
-            item_sorted = sorted(dictObj[key], key=lambda x: x['count'], reverse = True)
+            item_sorted = sorted(dictObj[key], key=lambda x: x['count'], reverse=True)
             dictObj[key] = item_sorted
         return dictObj
-
 
     def analysis(self, data):
         dictObj = self.generateDict();
@@ -45,10 +44,8 @@ class ChartClas(object):
                             if word in title:
                                 item["count"] += 1
                                 break
-                    else:                    
+                    else:
                         if item["name"] in title:
                             item["count"] += 1
         dictObj_sorted = self.sortBy(dictObj)
         return dictObj_sorted
-
-

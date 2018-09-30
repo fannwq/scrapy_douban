@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*- 
-from flask import Flask, url_for
-from flask import request
-from flask import render_template
 import json
-import time
-from info import *
+
+from flask import Flask
+from flask import render_template
+from flask import request
+
 from chart import *
+from info import *
 from mongo import *
 
 app = Flask(__name__)

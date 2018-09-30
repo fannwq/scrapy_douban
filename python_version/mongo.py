@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*- 
-import pymongo
 import os
+
 from pymongo import MongoClient
+
 
 class MongoDBClas(object):
 

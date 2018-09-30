@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*- 
-from flask import Flask, url_for
-from flask import request
-from flask import render_template
 import json
-import time
-from info import *
+
+from flask import Flask
+from flask import render_template
+from flask import request
+
 from chart import *
+from info import *
 
 app = Flask(__name__)
 
 # the last fetch time
 LAST_FETCH_TIMESTAMP = time.time()
 # expire time
-EXPIRE_TIME = 10 * 60
+EXPIRE_TIME = 1
 # fetch result
 RESULT = []
 # the info crawl class
@@ -125,6 +126,7 @@ def dataLength():
 def fetch():
     global RESULT, LAST_FETCH_TIMESTAMP
     keywords = request.args["param"].split("&")
+    print(keywords)
     result = search(keywords);
     return json.dumps({
         'status': 'ok',
@@ -143,4 +145,4 @@ app.config.update(
 )
 
 if __name__ == '__main__':
-    app.run(use_reloader = False)
+    app.run(use_reloader = True)

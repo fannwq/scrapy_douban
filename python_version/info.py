@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*- 
 
-import urllib2
 import time
-import sys
+import urllib2
+
 from bs4 import BeautifulSoup
+
 
 class InfoClas(object):
     FETCH_URLS = [
@@ -12,17 +13,17 @@ class InfoClas(object):
         "http://www.douban.com/group/262626/discussion",
         "http://www.douban.com/group/276176/discussion",
 
-        # ±±¾©×â·¿¶¹°ê
+        # ï¿½ï¿½ï¿½ï¿½ï¿½â·¿ï¿½ï¿½ï¿½ï¿½
         "http://www.douban.com/group/26926/discussion",
-        # ±±¾©×â·¿£¨ÃÜÌ½£©
+        # ï¿½ï¿½ï¿½ï¿½ï¿½â·¿ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½
         "http://www.douban.com/group/sweethome/discussion",
-        # ±±¾©×â·¿£¡ÕÒ°é¶ùÒ»Æð×¡Ò»¸ö·¿¼ä£¡
+        # ï¿½ï¿½ï¿½ï¿½ï¿½â·¿ï¿½ï¿½ï¿½Ò°ï¿½ï¿½Ò»ï¿½ï¿½×¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ä£¡
         "http://www.douban.com/group/242806/discussion",
-        # ±±¾©×â·¿·¿¶«ÁªÃË(ÖÐ½éÎðÈÅ) 
+        # ï¿½ï¿½ï¿½ï¿½ï¿½â·¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½) 
         "http://www.douban.com/group/257523/discussion",
-        # ±±¾©×â·¿£¨·ÇÖÐ½é£© 
+        # ï¿½ï¿½ï¿½ï¿½ï¿½â·¿ï¿½ï¿½ï¿½ï¿½ï¿½Ð½é£© 
         "http://www.douban.com/group/279962/discussion",
-        # ±±¾©×â·¿ºÏ×â·¿
+        # ï¿½ï¿½ï¿½ï¿½ï¿½â·¿ï¿½ï¿½ï¿½â·¿
         "http://www.douban.com/group/334449/discussion"
     ]
 

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*- 
 
-import os
 from flask import Flask
 from pymongo import MongoClient
 
