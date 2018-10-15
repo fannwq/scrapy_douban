@@ -1,5 +1,6 @@
 ;(function () {
     var KEYWORD_LIMIT = 10, count = 0;
+
     function search(keywords) {
         $.ajax({
             type: "get",
@@ -15,7 +16,7 @@
             success: function (data) {
                 var result = $.parseJSON(data);
                 $('.btn-search').attr("disabled", false).text("搜索");
-                
+
                 if (result.status !== "ok") {
                     alert("后台出错，轻稍后再试，抱歉");
                     return
@@ -25,7 +26,7 @@
                     alert("暂无这些关键字的房屋信息，抱歉");
                     return;
                 }
-                
+
                 $('#model_search').modal('show')
                 $('.smodel_search-list').empty();
                 for (var i = 0; i < result.length; i++) {
@@ -82,7 +83,8 @@
             success: function (data) {
 
             }
-        })        
+        })
     }
+
     refresh();
 })();

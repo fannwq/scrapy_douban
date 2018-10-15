@@ -18,6 +18,7 @@ EXPIRE_TIME = 1
 RESULT = []
 # the info crawl class
 INFO_INSTANCE = InfoClas()
+RECENTLY_DATA_LENGTH = 100
 
 
 def update():
@@ -63,7 +64,7 @@ def isExpire():
 def search(keywords):
     global RESULT, RESULT_BACKUP
     result = [];
-    total = RESULT[:]
+    total = RESULT[:RECENTLY_DATA_LENGTH]
     for item in total:
         title = item["title"]
         for word in keywords:
@@ -99,7 +100,7 @@ def force_refresh():
 @app.route('/')
 def welcome():
     global RESULT
-    return render_template('index.html', data_length=len(RESULT), data=RESULT[:50])
+    return render_template('index.html', data_length=len(RESULT), data=RESULT[:RECENTLY_DATA_LENGTH])
 
 
 @app.route('/analysis')
