@@ -124,7 +124,8 @@ def dataLength():
 def fetch():
     global RESULT, LAST_FETCH_TIMESTAMP
     keywords = request.args["param"].split("&")
-    print(keywords)
+    for item in keywords:
+        print(item)
     result = search(keywords);
     return json.dumps({
         'status': 'ok',
