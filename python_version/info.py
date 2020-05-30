@@ -45,22 +45,22 @@ class InfoClas(object):
 
     def __fetchSingle(self, url):
         try:
-            page = urllib2.urlopen(url)
-        except:
-            return
+            user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+            headers = {'User-Agent': user_agent}
+            request = urllib2.Request(url, headers=headers)
+            page = urllib2.urlopen(request)
+            soup = BeautifulSoup(page, "html.parser")
+            collection = soup.select("table.olt td.title a")
+            for link in collection:
+                if type(link.attrs) == dict and link.attrs.has_key("title") and link.attrs.has_key("href"):
+                    link_title = link.attrs["title"]
+                    link_href = link.attrs["href"]
+                    link_id = link_href.split('/')[-2]
+                    item = {"title": link_title, "link": link_href, "id": link_id}
+                    self.RESULT.append(item)
 
-        soup = BeautifulSoup(page)
-        collection = soup.select("table.olt td.title a")
-
-        for link in collection:
-            item = {
-                "title": "",
-                "link": ""
-            }
-            item["title"] = link["title"]
-            item["link"] = link["href"]
-            item["id"] = int(link["href"].split('/')[-2])
-            self.RESULT.append(item)
+        except BaseException as ex:
+            print ex
 
     def fetch(self):
         self.RESULT = [];

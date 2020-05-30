@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*- 
 import json
-
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -18,7 +17,7 @@ EXPIRE_TIME = 1
 RESULT = []
 # the info crawl class
 INFO_INSTANCE = InfoClas()
-RECENTLY_DATA_LENGTH = 100
+RECENTLY_DATA_LENGTH = 2000
 
 
 def update():
@@ -139,4 +138,4 @@ def page_not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8000, use_reloader=True)
+    app.run(host="127.0.0.1", port=8000, use_reloader=True)
