@@ -12,14 +12,11 @@ app = Flask(__name__)
 
 # the last fetch time
 LAST_FETCH_TIMESTAMP = time.time()
-# expire time
-EXPIRE_TIME = 120
+
 # fetch result
 RESULT = []
 # the info crawl class
 INFO_INSTANCE = InfoClas()
-#页面显示的最大数据数量
-RECENTLY_DATA_LENGTH = 2000
 
 
 def update():
@@ -49,20 +46,20 @@ def update():
 
 
 def isExpire():
-    global LAST_FETCH_TIMESTAMP
+    global LAST_FETCH_TIMESTAMP, INFO_INSTANCE
     cur_time = time.time();
     time_span = cur_time - LAST_FETCH_TIMESTAMP;
     print "[time span]------>span:" + str(time_span)
-    if time_span > EXPIRE_TIME:
+    if time_span > INFO_INSTANCE.EXPIRE_TIME:
         return True
     else:
         return False
 
 
 def search(keywords):
-    global RESULT, RESULT_BACKUP
+    global RESULT, RESULT_BACKUP, INFO_INSTANCE
     result = [];
-    total = RESULT[:RECENTLY_DATA_LENGTH]
+    total = RESULT[:INFO_INSTANCE.RECENTLY_DATA_LENGTH]
     for item in total:
         title = item["title"]
         for word in keywords:
@@ -97,8 +94,8 @@ def force_refresh():
 
 @app.route('/')
 def welcome():
-    global RESULT
-    return render_template('index.html', data_length=len(RESULT), data=RESULT[:RECENTLY_DATA_LENGTH])
+    global RESULT, INFO_INSTANCE
+    return render_template('index.html', data_length=len(RESULT), data=RESULT[:INFO_INSTANCE.RECENTLY_DATA_LENGTH])
 
 
 @app.route('/analysis')
@@ -138,6 +135,4 @@ def page_not_found(error):
 
 if __name__ == '__main__':
     update()
-    app.run(host="0.0.0.0", port=8888, processes=True)
-
-
+    app.run(host="127.0.0.1", port=8888, threaded=True)

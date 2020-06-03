@@ -14,18 +14,25 @@ class InfoClas(object):
     # 用config对象读取配置文件
     conf.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config.ini'))
 
-    FETCH_URLS = conf.get('FETCH_URLS', 'URLS').strip().split(',')
+    # 爬取的豆瓣小组列表
+    FETCH_URLS = conf.get('DEFAULT', 'URLS').strip().split(',')
 
-    # 每次获取等待的秒数
-    PAUSE_SECOND = float(conf.get('PARAM', 'PAUSE_SECOND'))
+    # 每次请求等待的秒数
+    PAUSE_SECOND = float(conf.get('DEFAULT', 'PAUSE_SECOND'))
     # 获取每个小组的前多少页
-    PAGE_NUM = conf.getint('PARAM', 'PAGE_NUM')
+    PAGE_NUM = conf.getint('DEFAULT', 'PAGE_NUM')
 
     # 爬取时的header
     HEADERS = {
-        'User-Agent': conf.get('HEADER', 'User-Agent'),
-        'cookie': conf.get('HEADER', 'cookie'),
+        'User-Agent': conf.get('DEFAULT', 'User-Agent'),
+        'cookie': conf.get('DEFAULT', 'cookie'),
     }
+
+    # 爬取最新页面的时间间隔
+    EXPIRE_TIME = conf.getint('DEFAULT', 'EXPIRE_TIME')
+
+    # 页面显示的最大数据数量
+    RECENTLY_DATA_LENGTH = conf.getint('DEFAULT', 'RECENTLY_DATA_LENGTH')
 
     # 爬取的页面
     RESULT = []
