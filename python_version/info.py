@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*- 
 
-import socket
+import ConfigParser
+import os
 import time
 import urllib2
 
@@ -8,35 +9,26 @@ from bs4 import BeautifulSoup
 
 
 class InfoClas(object):
-    FETCH_URLS = [
-        "http://www.douban.com/group/beijingzufang/discussion",
-        "http://www.douban.com/group/fangzi/discussion",
-        "http://www.douban.com/group/262626/discussion",
-        "http://www.douban.com/group/276176/discussion",
+    # 生成config对象
+    conf = ConfigParser.ConfigParser()
+    # 用config对象读取配置文件
+    conf.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config.ini'))
 
-        # �����ⷿ����
-        "http://www.douban.com/group/26926/discussion",
-        # �����ⷿ����̽��
-        "http://www.douban.com/group/sweethome/discussion",
-        # �����ⷿ���Ұ��һ��סһ�����䣡
-        "http://www.douban.com/group/242806/discussion",
-        # �����ⷿ��������(�н�����) 
-        "http://www.douban.com/group/257523/discussion",
-        # �����ⷿ�����н飩 
-        "http://www.douban.com/group/279962/discussion",
-        # �����ⷿ���ⷿ
-        "http://www.douban.com/group/334449/discussion",
-        "https://www.douban.com/group/opking/discussion",
-        "https://www.douban.com/group/276176/discussion",
-        "https://www.douban.com/group/465554/discussion",
-        "https://www.douban.com/group/zhufang/discussion",
-        "https://www.douban.com/group/625354/discussion"
-    ]
+    FETCH_URLS = conf.get('FETCH_URLS', 'URLS').strip().split(',')
 
-    RESULT = []
-    PAUSE_SECOND = 0
+    # 每次获取等待的秒数
+    PAUSE_SECOND = float(conf.get('PARAM', 'PAUSE_SECOND'))
     # 获取每个小组的前多少页
-    PAGE_NUM = 5
+    PAGE_NUM = conf.getint('PARAM', 'PAGE_NUM')
+
+    # 爬取时的header
+    HEADERS = {
+        'User-Agent': conf.get('HEADER', 'User-Agent'),
+        'cookie': conf.get('HEADER', 'cookie'),
+    }
+
+    # 爬取的页面
+    RESULT = []
 
     def __init__(self):
         pass
@@ -47,11 +39,8 @@ class InfoClas(object):
 
     def __fetchSingle(self, url):
         try:
-            socket.setdefaulttimeout(6000)
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'}
-            request = urllib2.Request(url, headers=headers)
-            page = urllib2.urlopen(request, timeout=60000)
+            request = urllib2.Request(url, headers=self.HEADERS)
+            page = urllib2.urlopen(request)
             soup = BeautifulSoup(page, "html.parser")
             collection = soup.select("table.olt td.title a")
             for link in collection:
