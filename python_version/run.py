@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*- 
 import json
+
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -12,11 +13,12 @@ app = Flask(__name__)
 # the last fetch time
 LAST_FETCH_TIMESTAMP = time.time()
 # expire time
-EXPIRE_TIME = 1
+EXPIRE_TIME = 120
 # fetch result
 RESULT = []
 # the info crawl class
 INFO_INSTANCE = InfoClas()
+#页面显示的最大数据数量
 RECENTLY_DATA_LENGTH = 2000
 
 
@@ -44,9 +46,6 @@ def update():
     # 只保留1000条数据
     if len(RESULT) > 1000:
         RESULT = RESULT[:1000]
-
-
-update()
 
 
 def isExpire():
@@ -138,4 +137,7 @@ def page_not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=8000, use_reloader=True)
+    update()
+    app.run(host="0.0.0.0", port=8888, processes=True)
+
+

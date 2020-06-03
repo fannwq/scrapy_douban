@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*- 
 
+import socket
 import time
 import urllib2
 
@@ -34,7 +35,8 @@ class InfoClas(object):
 
     RESULT = []
     PAUSE_SECOND = 0
-    PAGE_NUM = 1
+    # 获取每个小组的前多少页
+    PAGE_NUM = 5
 
     def __init__(self):
         pass
@@ -45,10 +47,11 @@ class InfoClas(object):
 
     def __fetchSingle(self, url):
         try:
-            user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-            headers = {'User-Agent': user_agent}
+            socket.setdefaulttimeout(6000)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'}
             request = urllib2.Request(url, headers=headers)
-            page = urllib2.urlopen(request)
+            page = urllib2.urlopen(request, timeout=60000)
             soup = BeautifulSoup(page, "html.parser")
             collection = soup.select("table.olt td.title a")
             for link in collection:
@@ -60,7 +63,7 @@ class InfoClas(object):
                     self.RESULT.append(item)
 
         except BaseException as ex:
-            print ex
+            print url + " " + str(ex)
 
     def fetch(self):
         self.RESULT = [];
